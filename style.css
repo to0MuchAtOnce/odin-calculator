@@ -26,7 +26,14 @@ body {
 
 .display {
   flex: 1;
-  border: 0.5px solid #eee;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  border: 0.5px solid #1a1a1a;
+  color: #fff;
+  font-size: 88px;
+  margin-right: 10px;
+  overflow: hidden;
 }
 
 .keypad {
@@ -41,14 +48,19 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  outline: 0;
   color: #d21d1d;
   text-align: center;
   background: #aaaaaa;
-  border: 0.5px solid #eee;
-  width: 79px;
-  height: 79px;
+  border: 0.5px solid #1a1a1a;
+  width: 80px;
+  height: 80px;
+}
+
+.cal-key:active {
+  background-color: #909090;
 }
 
 .cal-key-double {
-  width: 159px;
+  width: 160px;
 }
