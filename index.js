@@ -1,15 +1,31 @@
-const displayView = document.querySelector('.display');
+let displayView = document.querySelector('.display');
+const digitKey = document.querySelectorAll('.digit-key');
+const clearKey = document.querySelector('.clear-key');
 
-let val1 = 'null';
+let val1 = null;
 let operator = '';
-let val2 = 'null';
+let val2 = null;
 
-let total = null;
+let displayValue = 0;
 
-function updateDisplay() {
-  displayView.textContent = total;
+digitKey.forEach((key) => {
+  key.addEventListener('click', () => {
+    displayValue = key.innerText;
+    displayView.innerHTML = parseInt(displayValue);
+  });
+});
+
+function updateDisplay() {}
+
+function clearDisplay() {
+  clearKey.addEventListener('click', () => {
+    displayView.textContent = 0;
+  });
 }
 
+clearDisplay();
+
+// Handle the operations based on type
 function operate(val1, operator, val2) {
   total = 0;
   try {
@@ -31,28 +47,23 @@ function operate(val1, operator, val2) {
   }
   return updateDisplay(total);
 }
-// console.log(operate(100, '+', 0));
 
 // Addition
 function add(num1, num2) {
   return num1 + num2;
 }
-// console.log(add(2, 5));
 
 // Subtract
 function subtract(num1, num2) {
   return num1 - num2;
 }
-// console.log(subtract(9, 6));
 
 // Multiply
 function multiply(num1, num2) {
   return num1 * num2;
 }
-// console.log(multiply(2, 2));
 
 // Divide
 function divide(num1, num2) {
   return num1 / num2;
 }
-// console.log(divide(10, 2));
