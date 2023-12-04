@@ -6,6 +6,7 @@ const clearKey = document.querySelector('.clear-key');
 let firstNumber = '';
 let operator = '';
 let secondNumber = '';
+let currentOperator = null;
 
 let displayValue = '';
 
@@ -24,20 +25,31 @@ operatorKey.forEach((key) => {
   });
 });
 
+clearKey.addEventListener('click', () => {
+  displayView.textContent = '0';
+  firstNumber = '';
+  operator = '';
+  secondNumber = '';
+});
+
 function appendNumber(number) {
+  if (displayView.textContent === '0') clearDisplay();
   displayView.textContent += number;
 }
 
-function clearDisplay() {
-  clearKey.addEventListener('click', () => {
-    displayView.textContent = 0;
-    firstNumber = '';
-    operator = '';
-    secondNumber = '';
-  });
+function setOperation(operator) {
+  firstNumber = displayView.textContent;
+  currentOperator = operator;
 }
 
-clearDisplay();
+function evaluate() {
+  operate(firstNumber, currentOperator, secondNumber);
+}
+
+function clearDisplay() {
+  displayView.textContent = '';
+  shouldResetScreen = false;
+}
 
 // Addition
 function add(val1, val2) {
