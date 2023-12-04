@@ -12,8 +12,8 @@ let displayValue = '';
 // Event for digitKeys to display value on screen
 digitKey.forEach((key) => {
   key.addEventListener('click', () => {
-    displayValue = parseInt(key.textContent);
-    displayView.textContent = displayValue;
+    appendNumber(key.textContent);
+    displayValue = displayView.textContent;
   });
 });
 
@@ -24,9 +24,13 @@ operatorKey.forEach((key) => {
   });
 });
 
+function appendNumber(number) {
+  displayView.textContent += number;
+}
+
 function clearDisplay() {
   clearKey.addEventListener('click', () => {
-    displayView.innerText = 0;
+    displayView.textContent = 0;
     firstNumber = '';
     operator = '';
     secondNumber = '';
@@ -57,7 +61,6 @@ function divide(val1, val2) {
 
 // Handle the operations based on type
 function operate(val1, operator, val2) {
-  total = 0;
   try {
     switch (operator.trim()) {
       case '+':
