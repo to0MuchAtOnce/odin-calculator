@@ -1,4 +1,4 @@
-let displayView = document.querySelector('.display');
+const displayView = document.querySelector('.display');
 const digitKey = document.querySelectorAll('.digit-key');
 const operatorKey = document.querySelectorAll('.operator-key');
 const clearKey = document.querySelector('.clear-key');
@@ -9,29 +9,27 @@ let secondNumber = '';
 
 let displayValue = '';
 
+// Event for digitKeys to display value on screen
 digitKey.forEach((key) => {
   key.addEventListener('click', () => {
-    if (val1 === '' && operator === '') {
-      displayValue = parseInt(key.innerHTML);
-      val1 = displayValue;
-      displayView.innerText = val1;
-    }
+    displayValue = parseInt(key.textContent);
+    displayView.textContent = displayValue;
   });
 });
 
-// Event for operator keys
+// Event to get operator keys when clicked
 operatorKey.forEach((key) => {
   key.addEventListener('click', () => {
-    operator = key.innerText;
+    operator = key.textContent;
   });
 });
 
 function clearDisplay() {
   clearKey.addEventListener('click', () => {
     displayView.innerText = 0;
-    val1 = '';
-    val2 = '';
+    firstNumber = '';
     operator = '';
+    secondNumber = '';
   });
 }
 
