@@ -3,36 +3,32 @@ const digitKey = document.querySelectorAll('.digit-key');
 const operatorKey = document.querySelectorAll('.operator-key');
 const clearKey = document.querySelector('.clear-key');
 
-let val1 = '';
+let firstNumber = '';
 let operator = '';
-let val2 = '';
+let secondNumber = '';
 
 let displayValue = '';
 
 digitKey.forEach((key) => {
-  key.addEventListener('click', (e) => {
-    const digitClicked = e.target.value;
-    if (operator === '' && val2 === '') {
-      val1 = parseFloat(val1 + digitClicked);
-      console.log('FirstNumber', val1);
-      displayValue = val1.toString();
+  key.addEventListener('click', () => {
+    if (val1 === '' && operator === '') {
+      displayValue = parseInt(key.innerHTML);
+      val1 = displayValue;
+      displayView.innerText = val1;
     }
-    displayValue = key.innerText;
-    displayView.innerHTML = parseInt(displayValue);
   });
 });
 
 // Event for operator keys
 operatorKey.forEach((key) => {
-  key.addEventListener('click', (e) => {
-    operator = e.target.value;
-    console.log('operator');
+  key.addEventListener('click', () => {
+    operator = key.innerText;
   });
 });
 
 function clearDisplay() {
   clearKey.addEventListener('click', () => {
-    displayView.textContent = 0;
+    displayView.innerText = 0;
     val1 = '';
     val2 = '';
     operator = '';
@@ -41,45 +37,45 @@ function clearDisplay() {
 
 clearDisplay();
 
+// Addition
+function add(val1, val2) {
+  return val1 + val2;
+}
+
+// Subtract
+function subtract(val1, val2) {
+  return val1 - val2;
+}
+
+// Multiply
+function multiply(val1, val2) {
+  return val1 * val2;
+}
+
+// Divide
+function divide(val1, val2) {
+  return val1 / val2;
+}
+
 // Handle the operations based on type
 function operate(val1, operator, val2) {
   total = 0;
   try {
     switch (operator.trim()) {
       case '+':
-        total = val1 + val2;
+        return add(val1, val2);
       case '-':
-        total = val1 - val2;
+        return subtract(val1, val2);
+      case '*':
+        return multiply(val1, val2);
       case '/':
         if (val2 === 0) {
           throw 'error';
-        }
-        total = val1 / val2;
-      case '*':
-        total = val1 * val2;
+        } else return divide(val1, val2);
+      default:
+        return null;
     }
   } catch (e) {
     'Error', e;
   }
-  return updateDisplay(total);
-}
-
-// Addition
-function add(num1, num2) {
-  return num1 + num2;
-}
-
-// Subtract
-function subtract(num1, num2) {
-  return num1 - num2;
-}
-
-// Multiply
-function multiply(num1, num2) {
-  return num1 * num2;
-}
-
-// Divide
-function divide(num1, num2) {
-  return num1 / num2;
 }
