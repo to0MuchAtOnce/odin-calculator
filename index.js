@@ -1,25 +1,41 @@
 let displayView = document.querySelector('.display');
 const digitKey = document.querySelectorAll('.digit-key');
+const operatorKey = document.querySelectorAll('.operator-key');
 const clearKey = document.querySelector('.clear-key');
 
-let val1 = null;
+let val1 = '';
 let operator = '';
-let val2 = null;
+let val2 = '';
 
-let displayValue = 0;
+let displayValue = '';
 
 digitKey.forEach((key) => {
-  key.addEventListener('click', () => {
+  key.addEventListener('click', (e) => {
+    const digitClicked = e.target.value;
+    if (operator === '' && val2 === '') {
+      val1 = parseFloat(val1 + digitClicked);
+      console.log('FirstNumber', val1);
+      displayValue = val1.toString();
+    }
     displayValue = key.innerText;
     displayView.innerHTML = parseInt(displayValue);
   });
 });
 
-function updateDisplay() {}
+// Event for operator keys
+operatorKey.forEach((key) => {
+  key.addEventListener('click', (e) => {
+    operator = e.target.value;
+    console.log('operator');
+  });
+});
 
 function clearDisplay() {
   clearKey.addEventListener('click', () => {
     displayView.textContent = 0;
+    val1 = '';
+    val2 = '';
+    operator = '';
   });
 }
 
