@@ -8,13 +8,11 @@ let operator = '';
 let secondNumber = '';
 let currentOperator = null;
 
-let displayValue = '';
-
 // Event for digitKeys to display value on screen
 digitKey.forEach((key) => {
   key.addEventListener('click', () => {
     appendNumber(key.textContent);
-    displayValue = displayView.textContent;
+    firstNumber = displayView.textContent;
   });
 });
 
@@ -42,9 +40,10 @@ function setOperation(operator) {
   currentOperator = operator;
 }
 
-function evaluate() {
-  operate(firstNumber, currentOperator, secondNumber);
+function evaluate(firstNumber, operator, secondNumber) {
+  operate(firstNumber, operator, secondNumber);
 }
+console.log('Evaluate:', evaluate());
 
 function clearDisplay() {
   displayView.textContent = '';
@@ -83,7 +82,7 @@ function operate(val1, operator, val2) {
         return multiply(val1, val2);
       case '/':
         if (val2 === 0) {
-          throw 'error';
+          throw (e, 'error');
         } else return divide(val1, val2);
       default:
         return null;
@@ -92,3 +91,5 @@ function operate(val1, operator, val2) {
     'Error', e;
   }
 }
+
+// console.log(operate(1, '/', 1));
