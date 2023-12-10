@@ -4,7 +4,6 @@ const operatorKey = document.querySelectorAll('.operator-key');
 const clearKey = document.querySelector('.clear-key');
 
 let firstNumber = '';
-let operator = '';
 let secondNumber = '';
 let currentOperator = null;
 
@@ -19,35 +18,39 @@ digitKey.forEach((key) => {
 // Event to get operator keys when clicked
 operatorKey.forEach((key) => {
   key.addEventListener('click', () => {
-    operator = key.textContent;
+    currentOperator = key.textContent;
+    console.log(currentOperator);
   });
 });
 
+// Reset all variables and clear the display when clear key is clicked
 clearKey.addEventListener('click', () => {
   displayView.textContent = '0';
   firstNumber = '';
-  operator = '';
+  currentOperator = '';
   secondNumber = '';
 });
 
+// Sets the firstNumber variable and adds each number to the displayView variable as its clicked.
 function appendNumber(number) {
   if (displayView.textContent === '0') clearDisplay();
-  displayView.textContent += number;
+  firstNumber = displayView.textContent += number;
+  console.log(firstNumber);
 }
 
-function setOperation(operator) {
-  firstNumber = displayView.textContent;
-  currentOperator = operator;
+// Sets the first number, and the specific operator clicked by the user
+function setOperation(currentOperator) {
+  currentOperator;
 }
 
-function evaluate(firstNumber, operator, secondNumber) {
-  operate(firstNumber, operator, secondNumber);
+function evaluate() {
+  operate(firstNumber, currentOperator, secondNumber);
 }
 console.log('Evaluate:', evaluate());
 
+// Clear the display
 function clearDisplay() {
   displayView.textContent = '';
-  shouldResetScreen = false;
 }
 
 // Addition
@@ -90,6 +93,7 @@ function operate(val1, operator, val2) {
   } catch (e) {
     'Error', e;
   }
+  console.log(operate(val1, '+', val2));
 }
 
 // console.log(operate(1, '/', 1));
