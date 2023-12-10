@@ -25,6 +25,7 @@ operatorKey.forEach((key) => {
   });
 });
 
+// Reset all variables and clear the display when clear key is clicked
 clearKey.addEventListener('click', () => {
   displayView.textContent = '0';
   firstNumber = '';
@@ -32,23 +33,26 @@ clearKey.addEventListener('click', () => {
   secondNumber = '';
 });
 
+// Adds each number to the displayView variable as its clicked.
 function appendNumber(number) {
   if (displayView.textContent === '0') clearDisplay();
   displayView.textContent += number;
 }
 
+// Sets the specific operator clicked by the user
 function setOperation(operator) {
   firstNumber = displayView.textContent;
   currentOperator = operator;
 }
 
+// Perform the evaluation
 function evaluate() {
   operate(firstNumber, currentOperator, secondNumber);
 }
 
+// Clear the display
 function clearDisplay() {
   displayView.textContent = '';
-  shouldResetScreen = false;
 }
 
 // Addition
