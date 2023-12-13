@@ -14,8 +14,6 @@ digitKey.forEach((key) => {
   });
 });
 
-// Event to get operator keys when clicked
-
 // Reset all variables and clear the display when clear key is clicked
 clearKey.addEventListener('click', () => {
   displayView.textContent = '0';
@@ -38,24 +36,35 @@ function appendNumber(number) {
     displayView.textContent = secondNumber;
     console.log('Second Number:', secondNumber);
   }
-  // console.log(operate(firstNumber, currentOperator, secondNumber));
 }
 
 // Sets the first number, and the specific operator clicked by the user
 operatorKey.forEach((key) => {
-  key.addEventListener('click', (e) => {
-    // if (firstNumber !== '') {
-    //   evaluate(e);
-    // }
+  key.addEventListener('click', () => {
+    if (firstNumber !== '' && secondNumber !== '') {
+      console.log(evaluate());
+    }
     currentOperator = key.textContent;
   });
 });
 
-function evaluate(currentOperator) {
-  operate(firstNumber, currentOperator, secondNumber);
+function evaluate() {
+  console.log(
+    'FIRST:',
+    firstNumber,
+    'OPERATOR:',
+    currentOperator,
+    'SECOND:',
+    secondNumber
+  );
+  const result = operate(
+    parseInt(firstNumber),
+    currentOperator,
+    parseInt(secondNumber)
+  );
+  displayView.textContent = result;
 }
 
-// Clear the display
 function clearDisplay() {
   displayView.textContent = '';
 }
@@ -81,9 +90,9 @@ function divide(val1, val2) {
 }
 
 // Handle the operations based on type
-function operate(val1, currentOperator, val2) {
+function operate(val1, operator, val2) {
   try {
-    switch (currentOperator.trim()) {
+    switch (operator.trim()) {
       case '+':
         return add(val1, val2);
       case '-':
