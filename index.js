@@ -21,7 +21,6 @@ clearKey.addEventListener('click', () => {
   displayView.textContent = '0';
   firstNumber = '';
   currentOperator = '';
-  console.log(currentOperator);
   secondNumber = '';
 });
 
