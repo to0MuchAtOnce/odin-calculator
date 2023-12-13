@@ -11,7 +11,6 @@ let currentOperator = null;
 digitKey.forEach((key) => {
   key.addEventListener('click', () => {
     appendNumber(key.textContent);
-    firstNumber = displayView.textContent;
   });
 });
 
@@ -22,6 +21,7 @@ clearKey.addEventListener('click', () => {
   displayView.textContent = '0';
   firstNumber = '';
   currentOperator = '';
+  console.log(currentOperator);
   secondNumber = '';
 });
 
@@ -29,21 +29,30 @@ clearKey.addEventListener('click', () => {
 function appendNumber(number) {
   // Clear the initial value of '0' so the new number does not have 0 infront of it
   if (displayView.textContent === '0') clearDisplay();
-  firstNumber = displayView.textContent += number;
-  console.log(firstNumber);
+  if (currentOperator === '' || currentOperator === null) {
+    firstNumber = displayView.textContent += number;
+    console.log('First Number:', firstNumber);
+  }
+  // If the currentOperator is set then this code runs, appending values to the secondNumber variable.
+  if (currentOperator) {
+    secondNumber += number;
+    displayView.textContent = secondNumber;
+    console.log('Second Number:', secondNumber);
+  }
+  // console.log(operate(firstNumber, currentOperator, secondNumber));
 }
 
 // Sets the first number, and the specific operator clicked by the user
 operatorKey.forEach((key) => {
-  key.addEventListener('click', () => {
-    if (firstNumber !== '') {
-      evaluate(key);
-    }
+  key.addEventListener('click', (e) => {
+    // if (firstNumber !== '') {
+    //   evaluate(e);
+    // }
+    currentOperator = key.textContent;
   });
 });
 
 function evaluate(currentOperator) {
-  secondNumber = displayView.textContent;
   operate(firstNumber, currentOperator, secondNumber);
 }
 

@@ -8,6 +8,7 @@ body {
   justify-content: center;
   height: 100vh;
   background: #eee;
+  overflow: hidden;
 }
 
 #wrapper {
