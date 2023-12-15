@@ -4,8 +4,8 @@ const operatorKey = document.querySelectorAll('.operator-key');
 const clearKey = document.querySelector('.clear-key');
 
 let firstNumber = '';
-let secondNumber = '';
 let currentOperator = null;
+let secondNumber = '';
 
 // Event for digitKeys to display value on screen
 digitKey.forEach((key) => {
@@ -18,7 +18,7 @@ digitKey.forEach((key) => {
 clearKey.addEventListener('click', () => {
   displayView.textContent = '0';
   firstNumber = '';
-  currentOperator = '';
+  currentOperator = null;
   secondNumber = '';
 });
 
@@ -26,7 +26,7 @@ clearKey.addEventListener('click', () => {
 function appendNumber(number) {
   // Clear the initial value of '0' so the new number does not have 0 infront of it
   if (displayView.textContent === '0') clearDisplay();
-  if (currentOperator === '' || currentOperator === null) {
+  if (currentOperator === null) {
     firstNumber = displayView.textContent += number;
     console.log('First Number:', firstNumber);
   }
@@ -42,7 +42,7 @@ function appendNumber(number) {
 operatorKey.forEach((key) => {
   key.addEventListener('click', () => {
     if (firstNumber !== '' && secondNumber !== '') {
-      console.log(evaluate());
+      evaluate();
     }
     currentOperator = key.textContent;
   });
@@ -63,6 +63,7 @@ function evaluate() {
     parseInt(secondNumber)
   );
   displayView.textContent = result;
+  console.log('Result:', result);
 }
 
 function clearDisplay() {
@@ -97,9 +98,9 @@ function operate(val1, operator, val2) {
         return add(val1, val2);
       case '-':
         return subtract(val1, val2);
-      case '*':
+      case '×':
         return multiply(val1, val2);
-      case '/':
+      case '÷':
         if (val2 === 0) {
           throw (e, 'error');
         } else return divide(val1, val2);
