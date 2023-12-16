@@ -6,6 +6,7 @@ const clearKey = document.querySelector('.clear-key');
 let firstNumber = '';
 let currentOperator = null;
 let secondNumber = '';
+let result = '';
 
 // Event for digitKeys to display value on screen
 digitKey.forEach((key) => {
@@ -20,6 +21,7 @@ clearKey.addEventListener('click', () => {
   firstNumber = '';
   currentOperator = null;
   secondNumber = '';
+  result = '';
 });
 
 // Sets the firstNumber variable and adds each number to the displayView variable as its clicked.
@@ -41,23 +43,18 @@ function appendNumber(number) {
 // Sets the first number, and the specific operator clicked by the user
 operatorKey.forEach((key) => {
   key.addEventListener('click', () => {
-    if (firstNumber !== '' && secondNumber !== '') {
-      evaluate();
+    if (result === '') {
+      console.log(currentOperator);
+      if (firstNumber !== '' && secondNumber !== '') {
+        evaluate();
+      }
     }
     currentOperator = key.textContent;
   });
 });
 
 function evaluate() {
-  console.log(
-    'FIRST:',
-    firstNumber,
-    'OPERATOR:',
-    currentOperator,
-    'SECOND:',
-    secondNumber
-  );
-  const result = operate(
+  result = operate(
     parseInt(firstNumber),
     currentOperator,
     parseInt(secondNumber)
