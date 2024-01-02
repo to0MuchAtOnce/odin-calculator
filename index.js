@@ -1,7 +1,9 @@
 const displayView = document.querySelector('.display');
 const digitKey = document.querySelectorAll('.digit-key');
 const operatorKey = document.querySelectorAll('.operator-key');
+const evaluationKey = document.querySelector('.evaluation-key');
 const clearKey = document.querySelector('.clear-key');
+const errorMsg = document.querySelector('.error-msg');
 
 let firstNumber = '';
 let currentOperator = null;
@@ -26,17 +28,17 @@ clearKey.addEventListener('click', () => {
 
 // Sets the firstNumber variable and adds each number to the displayView variable as its clicked.
 function appendNumber(number) {
-  // Clear the initial value of '0' so the new number does not have 0 infront of it
+  // Clear the initial value of '0'
   if (displayView.textContent === '0') clearDisplay();
   if (currentOperator === null) {
     firstNumber = displayView.textContent += number;
-    console.log('First Number:', firstNumber);
+    console.log('First Number:', typeof firstNumber);
   }
   // If the currentOperator is set then this code runs, appending values to the secondNumber variable.
   if (currentOperator) {
     secondNumber += number;
     displayView.textContent = secondNumber;
-    console.log('Second Number:', secondNumber);
+    console.log('Second Number:', typeof secondNumber);
   }
 }
 
@@ -44,13 +46,22 @@ function appendNumber(number) {
 operatorKey.forEach((key) => {
   key.addEventListener('click', () => {
     if (result === '') {
-      console.log(currentOperator);
+      currentOperator = key.textContent;
+      console.log('Operator in sum:', currentOperator);
       if (firstNumber !== '' && secondNumber !== '') {
         evaluate();
       }
     }
     currentOperator = key.textContent;
   });
+});
+
+evaluationKey.addEventListener('click', () => {
+  if ((secondNumber !== '' && evaluationKey) || operatorKey) {
+    evaluate();
+  } else {
+    errorMsg.innerHTML = 'Incomplete sum';
+  }
 });
 
 function evaluate() {
@@ -60,7 +71,9 @@ function evaluate() {
     parseInt(secondNumber)
   );
   displayView.textContent = result;
-  console.log('Result:', result);
+  firstNumber = result;
+  secondNumber = '';
+  console.log('Evaluation:', typeof result, result);
 }
 
 function clearDisplay() {
