@@ -1,27 +1,19 @@
 const displayView = document.querySelector('.display');
 const digitKey = document.querySelectorAll('.digit-key');
 const operatorKey = document.querySelectorAll('.operator-key');
+const evaluationKey = document.querySelector('.evaluation-key');
 const clearKey = document.querySelector('.clear-key');
+const errorMsg = document.querySelector('.error-msg');
 
 let firstNumber = '';
-let secondNumber = '';
 let currentOperator = null;
-
-let displayValue = '';
+let secondNumber = '';
+let result = '';
 
 // Event for digitKeys to display value on screen
 digitKey.forEach((key) => {
   key.addEventListener('click', () => {
     appendNumber(key.textContent);
-    displayValue = displayView.textContent;
-  });
-});
-
-// Event to get operator keys when clicked
-operatorKey.forEach((key) => {
-  key.addEventListener('click', () => {
-    currentOperator = key.textContent;
-    console.log(currentOperator);
   });
 });
 
@@ -29,33 +21,61 @@ operatorKey.forEach((key) => {
 clearKey.addEventListener('click', () => {
   displayView.textContent = '0';
   firstNumber = '';
-  currentOperator = '';
+  currentOperator = null;
   secondNumber = '';
+  result = '';
 });
 
 // Sets the firstNumber variable and adds each number to the displayView variable as its clicked.
 function appendNumber(number) {
+  // Clear the initial value of '0'
   if (displayView.textContent === '0') clearDisplay();
-  firstNumber = displayView.textContent += number;
-  console.log(firstNumber);
+  if (currentOperator === null) {
+    firstNumber = displayView.textContent += number;
+    console.log('First Number:', typeof firstNumber);
+  }
+  // If the currentOperator is set then this code runs, appending values to the secondNumber variable.
+  if (currentOperator) {
+    secondNumber += number;
+    displayView.textContent = secondNumber;
+    console.log('Second Number:', typeof secondNumber);
+  }
 }
 
 // Sets the first number, and the specific operator clicked by the user
-function setOperation(currentOperator) {
-  currentOperator;
-}
+operatorKey.forEach((key) => {
+  key.addEventListener('click', () => {
+    if (result === '') {
+      currentOperator = key.textContent;
+      console.log('Operator in sum:', currentOperator);
+      if (firstNumber !== '' && secondNumber !== '') {
+        evaluate();
+      }
+    }
+    currentOperator = key.textContent;
+  });
+});
 
-// Perform the evaluation
-function evaluate(firstNumber, currentOperator, secondNumber) {
-  if (firstNumber !== 0) {
-    firstNumber = displayView;
-  } else if (secondNumber !== 0) {
-    secondNumber = displayView;
+evaluationKey.addEventListener('click', () => {
+  if ((secondNumber !== '' && evaluationKey) || operatorKey) {
+    evaluate();
+  } else {
+    errorMsg.innerHTML = 'Incomplete sum';
   }
-  operate(firstNumber, currentOperator, secondNumber);
+});
+
+function evaluate() {
+  result = operate(
+    parseInt(firstNumber),
+    currentOperator,
+    parseInt(secondNumber)
+  );
+  displayView.textContent = result;
+  firstNumber = result;
+  secondNumber = '';
+  console.log('Evaluation:', typeof result, result);
 }
 
-// Clear the display
 function clearDisplay() {
   displayView.textContent = '';
 }
@@ -88,11 +108,11 @@ function operate(val1, operator, val2) {
         return add(val1, val2);
       case '-':
         return subtract(val1, val2);
-      case '*':
+      case '×':
         return multiply(val1, val2);
-      case '/':
+      case '÷':
         if (val2 === 0) {
-          throw 'error';
+          throw (e, 'error');
         } else return divide(val1, val2);
       default:
         return null;
@@ -100,5 +120,6 @@ function operate(val1, operator, val2) {
   } catch (e) {
     'Error', e;
   }
-  console.log(operate(val1, '+', val2));
 }
+
+// console.log(operate(1, '+', 1));
