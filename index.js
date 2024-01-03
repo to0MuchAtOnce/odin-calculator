@@ -45,14 +45,14 @@ function appendNumber(number) {
 // Sets the first number, and the specific operator clicked by the user
 operatorKey.forEach((key) => {
   key.addEventListener('click', () => {
-    if (result === '') {
+    if (currentOperator === null) {
       currentOperator = key.textContent;
-      console.log('Operator in sum:', currentOperator);
-      if (firstNumber !== '' && secondNumber !== '') {
-        evaluate();
-      }
-    }
+    } else evaluate();
     currentOperator = key.textContent;
+    console.log('Operator in sum:', currentOperator);
+    if (firstNumber !== '' && secondNumber !== '') {
+      evaluate();
+    }
   });
 });
 
@@ -73,6 +73,7 @@ function evaluate() {
   displayView.textContent = result;
   firstNumber = result;
   secondNumber = '';
+  console.log('Operator after eval:', currentOperator);
   console.log('Evaluation:', typeof result, result);
 }
 
