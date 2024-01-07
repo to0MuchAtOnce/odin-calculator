@@ -35,7 +35,7 @@ function appendNumber(number) {
   // Clear the initial value
   if (currentOperator === null) {
     if (displayView.textContent.length < 9) {
-      if (displayView.textContent === '0') clearDisplay();
+      if (displayView.textContent === '0' && number === '0') clearDisplay();
       firstNumber = displayView.textContent += number;
       console.log('First Number:', typeof firstNumber);
     }
@@ -53,23 +53,22 @@ plusMinus.addEventListener('click', () => {
   let currentValue = parseFloat(displayView.textContent);
   let newValue = plusOrMinus(currentValue);
   displayView.textContent = newValue;
-
-  if (!currentOperator) {
-    firstNumber = String(newValue);
-  } else {
-    secondNumber = String(newValue);
-  }
 });
 
 percentageKey.addEventListener('click', () => {
   let currentValue = parseFloat(displayView.textContent);
-  let percentageValue = percentage(currentValue);
-  displayView.textContent = percentageValue;
+  let percentageValue = currentValue / 100;
 
-  if (!currentOperator) {
-    firstNumber = String(currentValue);
+  if (currentOperator) {
+    if (currentOperator === '+' || currentOperator === '-') {
+      secondNumber = String(percentageValue * parseFloat(firstNumber));
+    } else {
+      secondNumber = String(percentageValue);
+    }
+    displayView.textContent = secondNumber;
   } else {
-    secondNumber = String(currentValue);
+    firstNumber = String(percentageValue);
+    displayView.textContent = firstNumber;
   }
 });
 
@@ -106,16 +105,19 @@ evaluationKey.addEventListener('click', () => {
 });
 
 function evaluate() {
-  if (currentOperator === '%') {
-    result =
-      parseFloat(firstNumber) +
-      parseFloat(firstNumber) * (parseFloat(secondNumber) / 100);
-  } else {
-    result = operate(
-      parseFloat(firstNumber),
-      currentOperator,
-      parseFloat(secondNumber)
-    );
+  if (currentOperator && secondNumber !== '') {
+    try {
+      result = operate(
+        parseFloat(firstNumber),
+        currentOperator,
+        parseFloat(secondNumber)
+      );
+      if (isNaN(result)) {
+        return;
+      }
+    } catch (e) {
+      return;
+    }
   }
   result = Math.round(result * 100000000) / 100000000;
   displayView.textContent = result;
@@ -156,11 +158,6 @@ function plusOrMinus(val1) {
   return val1 * -1;
 }
 
-// Percentage
-function percentage(val1) {
-  return val1 / 100;
-}
-
 // Handle the operations based on type
 function operate(val1, operator, val2) {
   try {
@@ -173,13 +170,14 @@ function operate(val1, operator, val2) {
         return multiply(val1, val2);
       case '÷':
         if (val2 === 0) {
-          throw (e, 'error');
+          displayView.style.fontSize = '50px';
+          throw new Error('error');
         } else return divide(val1, val2);
       default:
         return null;
     }
   } catch (e) {
-    'Error', e;
+    displayView.textContent = 'Not a number';
   }
 }
 
