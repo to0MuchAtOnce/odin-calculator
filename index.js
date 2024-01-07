@@ -35,14 +35,17 @@ function appendNumber(number) {
   // Clear the initial value
   if (currentOperator === null) {
     if (displayView.textContent.length < 9) {
-      if (displayView.textContent === '0' && number === '0') clearDisplay();
-      firstNumber = displayView.textContent += number;
+      if (displayView.textContent === '0') {
+        displayView.textContent = '';
+      }
+      firstNumber += parseInt(number);
       console.log('First Number:', typeof firstNumber);
+      displayView.textContent = firstNumber;
     }
   } else {
     // If the currentOperator is set then this code runs, appending values to the secondNumber variable.
     if (currentOperator && secondNumber.length < 9) {
-      secondNumber += number;
+      secondNumber += parseInt(number);
       displayView.textContent = secondNumber;
       console.log('Second Number:', typeof secondNumber);
     }
@@ -130,7 +133,9 @@ function evaluate() {
 }
 
 function clearDisplay() {
-  displayView.textContent = '';
+  if (displayView.textContent) {
+    displayView.textContent = '';
+  }
 }
 
 // Addition

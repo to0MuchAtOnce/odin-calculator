@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400&family=Roboto&display=swap');
 :root {
   box-sizing: border-box;
   --bg: #25292eec;
@@ -16,6 +17,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
   height: 100vh;
   background: var(--bg);
   overflow: hidden;
