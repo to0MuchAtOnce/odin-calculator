@@ -13,6 +13,8 @@ let currentOperator = null;
 let secondNumber = '';
 let result = '';
 
+let isNegative = false;
+
 // Event for digitKeys to display value on screen
 digitKey.forEach((key) => {
   key.addEventListener('click', () => {
@@ -34,18 +36,18 @@ clearKey.addEventListener('click', () => {
 function appendNumber(number) {
   // Clear the initial value
   if (currentOperator === null) {
-    if (displayView.textContent.length < 9) {
+    if (displayView.textContent.length < 8) {
       if (displayView.textContent === '0') {
         displayView.textContent = '';
       }
-      firstNumber += parseInt(number);
+      firstNumber += number.startsWith('-') ? number : parseFloat(number);
       console.log('First Number:', typeof firstNumber);
       displayView.textContent = firstNumber;
     }
   } else {
     // If the currentOperator is set then this code runs, appending values to the secondNumber variable.
-    if (currentOperator && secondNumber.length < 9) {
-      secondNumber += parseInt(number);
+    if (currentOperator && secondNumber.length < 8) {
+      secondNumber += number.startsWith('-') ? number : parseFloat(number);
       displayView.textContent = secondNumber;
       console.log('Second Number:', typeof secondNumber);
     }
@@ -53,9 +55,15 @@ function appendNumber(number) {
 }
 
 plusMinus.addEventListener('click', () => {
-  let currentValue = parseFloat(displayView.textContent);
-  let newValue = plusOrMinus(currentValue);
-  displayView.textContent = newValue;
+  if (currentOperator === null) {
+    firstNumber = (parseFloat(firstNumber) * -1).toString();
+    displayView.textContent = firstNumber;
+    isNegative = firstNumber.startsWith('-');
+  } else {
+    secondNumber = (parseFloat(secondNumber) * -1).toString();
+    displayView.textContent = secondNumber;
+    isNegative = secondNumber.startsWith('-');
+  }
 });
 
 percentageKey.addEventListener('click', () => {
@@ -122,10 +130,10 @@ function evaluate() {
       return;
     }
   }
-  result = Math.round(result * 100000000) / 100000000;
+  result = Math.round(result * 10000000) / 10000000;
   displayView.textContent = result;
-  if (result.toString().length > 9) {
-    displayView.style.fontSize = '60px';
+  if (result.toString().length > 8) {
+    displayView.style.fontSize = '50px';
   }
   firstNumber = result;
   secondNumber = '';
